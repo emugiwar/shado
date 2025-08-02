@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>داشبورد منابع انسانی</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Vazir:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-content">
+                <h1 class="dashboard-title">
+                    <i class="fas fa-users"></i>
+                    داشبورد منابع انسانی
+                </h1>
+                <div class="header-actions">
+                    <div class="search-container">
+                        <input type="text" id="searchInput" placeholder="جستجو در داشبورد...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <button class="refresh-btn" onclick="refreshDashboard()">
+                        <i class="fas fa-sync-alt"></i>
+                        بروزرسانی
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Critical Cards Section -->
+        <section class="critical-section">
+            <h2 class="section-title critical-title">
+                <i class="fas fa-exclamation-triangle"></i>
+                موارد اولویت بالا
+            </h2>
+            <div class="cards-grid critical-grid">
+                <div class="card critical-card" data-category="critical" onclick="showDetails('unauthorized-status')">
+                    <div class="card-header">
+                        <h3>حالت غیر مجاز</h3>
+                        <span class="card-count critical">12</span>
+                    </div>
+                    <div class="card-content">
+                        <p>پرسنل با وضعیت غیر مجاز</p>
+                        <div class="card-progress">
+                            <div class="progress-bar critical" style="width: 85%"></div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <span class="last-update">آخرین بروزرسانی: 2 ساعت پیش</span>
+                    </div>
+                </div>
+
+                <div class="card critical-card" data-category="critical" onclick="showDetails('incomplete-timecard')">
+                    <div class="card-header">
+                        <h3>کارت زنی ناقص</h3>
+                        <span class="card-count warning">8</span>
+                    </div>
+                    <div class="card-content">
+                        <p>کارت‌های زنی تکمیل نشده</p>
+                        <div class="card-progress">
+                            <div class="progress-bar warning" style="width: 60%"></div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <span class="last-update">آخرین بروزرسانی: 1 ساعت پیش</span>
+                    </div>
+                </div>
+
+                <div class="card critical-card" data-category="critical" onclick="showDetails('pending-missions')">
+                    <div class="card-header">
+                        <h3>ماموریت‌های منتظر تعیین تکلیف</h3>
+                        <span class="card-count info">5</span>
+                    </div>
+                    <div class="card-content">
+                        <p>ماموریت‌های در انتظار تصمیم</p>
+                        <div class="card-progress">
+                            <div class="progress-bar info" style="width: 40%"></div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <span class="last-update">آخرین بروزرسانی: 30 دقیقه پیش</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Medium Priority Cards Section -->
+        <section class="medium-section">
+            <div class="section-header" onclick="toggleSection('medium-cards')">
+                <h2 class="section-title">
+                    <i class="fas fa-tasks"></i>
+                    مدیریت روزانه
+                </h2>
+                <i class="fas fa-chevron-down toggle-icon" id="medium-toggle"></i>
+            </div>
+            <div class="cards-container" id="medium-cards">
+                <div class="cards-grid medium-grid">
+                    <div class="card medium-card" data-category="medium" onclick="showDetails('annual-settlement')">
+                        <div class="card-header">
+                            <h3>تسویه سنواتی</h3>
+                            <span class="card-count success">23</span>
+                        </div>
+                        <div class="card-content">
+                            <p>پرسنل آماده تسویه سنواتی</p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="action-btn primary">مشاهده جزئیات</button>
+                            <button class="action-btn secondary">پردازش</button>
+                        </div>
+                    </div>
+
+                    <div class="card medium-card" data-category="medium" onclick="showDetails('unpaid-leave')">
+                        <div class="card-header">
+                            <h3>تعطیلات بدون حقوق</h3>
+                            <span class="card-count warning">7</span>
+                        </div>
+                        <div class="card-content">
+                            <p>درخواست‌های مرخصی بدون حقوق</p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="action-btn primary">مشاهده جزئیات</button>
+                            <button class="action-btn secondary">بررسی</button>
+                        </div>
+                    </div>
+
+                    <div class="card medium-card" data-category="medium" onclick="showDetails('no-contract')">
+                        <div class="card-header">
+                            <h3>فاقد قرارداد می‌باشد</h3>
+                            <span class="card-count critical">4</span>
+                        </div>
+                        <div class="card-content">
+                            <p>پرسنل بدون قرارداد فعال</p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="action-btn primary">مشاهده جزئیات</button>
+                            <button class="action-btn secondary">اقدام فوری</button>
+                        </div>
+                    </div>
+
+                    <div class="card medium-card" data-category="medium" onclick="showDetails('no-shift')">
+                        <div class="card-header">
+                            <h3>عدم تخصیص شیفت</h3>
+                            <span class="card-count warning">9</span>
+                        </div>
+                        <div class="card-content">
+                            <p>پرسنل بدون شیفت تعریف شده</p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="action-btn primary">مشاهده جزئیات</button>
+                            <button class="action-btn secondary">تخصیص شیفت</button>
+                        </div>
+                    </div>
+
+                    <div class="card medium-card" data-category="medium" onclick="showDetails('personnel-card')">
+                        <div class="card-header">
+                            <h3>کارت پرسنلی</h3>
+                            <span class="card-count info">156</span>
+                        </div>
+                        <div class="card-content">
+                            <p>مدیریت کارت‌های پرسنلی</p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="action-btn primary">مشاهده جزئیات</button>
+                            <button class="action-btn secondary">ویرایش</button>
+                        </div>
+                    </div>
+
+                    <div class="card medium-card" data-category="medium" onclick="showDetails('attendance-request')">
+                        <div class="card-header">
+                            <h3>درخواست ثبت تردد</h3>
+                            <span class="card-count info">15</span>
+                        </div>
+                        <div class="card-content">
+                            <p>درخواست‌های ثبت تردد</p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="action-btn primary">مشاهده جزئیات</button>
+                            <button class="action-btn secondary">تایید</button>
+                        </div>
+                    </div>
+
+                    <div class="card medium-card" data-category="medium" onclick="showDetails('leave-request')">
+                        <div class="card-header">
+                            <h3>درخواست ثبت مرخصی</h3>
+                            <span class="card-count info">11</span>
+                        </div>
+                        <div class="card-content">
+                            <p>درخواست‌های مرخصی جدید</p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="action-btn primary">مشاهده جزئیات</button>
+                            <button class="action-btn secondary">بررسی</button>
+                        </div>
+                    </div>
+
+                    <div class="card medium-card" data-category="medium" onclick="showDetails('mission-request')">
+                        <div class="card-header">
+                            <h3>درخواست ماموریت</h3>
+                            <span class="card-count info">6</span>
+                        </div>
+                        <div class="card-content">
+                            <p>درخواست‌های ماموریت جدید</p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="action-btn primary">مشاهده جزئیات</button>
+                            <button class="action-btn secondary">بررسی</button>
+                        </div>
+                    </div>
+
+                    <div class="card medium-card" data-category="medium" onclick="showDetails('salary-promotion')">
+                        <div class="card-header">
+                            <h3>لیست پرسنل حائز شرایط افزایش مزد و رتبه</h3>
+                            <span class="card-count success">18</span>
+                        </div>
+                        <div class="card-content">
+                            <p>پرسنل آماده ارتقاء</p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="action-btn primary">مشاهده جزئیات</button>
+                            <button class="action-btn secondary">پردازش</button>
+                        </div>
+                    </div>
+
+                    <div class="card medium-card" data-category="medium" onclick="showDetails('expiring-contracts')">
+                        <div class="card-header">
+                            <h3>قرارداد نزدیک به اتمام</h3>
+                            <span class="card-count warning">14</span>
+                        </div>
+                        <div class="card-content">
+                            <p>قراردادهای نزدیک به پایان</p>
+                        </div>
+                        <div class="card-actions">
+                            <button class="action-btn primary">مشاهده جزئیات</button>
+                            <button class="action-btn secondary">تمدید</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Low Priority Cards Section -->
+        <section class="low-priority-section">
+            <div class="section-header" onclick="toggleSection('low-priority-cards')">
+                <h2 class="section-title">
+                    <i class="fas fa-archive"></i>
+                    گزارشات و اطلاعات تکمیلی
+                </h2>
+                <i class="fas fa-chevron-down toggle-icon" id="low-priority-toggle"></i>
+            </div>
+            <div class="cards-container collapsed" id="low-priority-cards">
+                <div class="cards-grid low-priority-grid">
+                    <div class="card low-priority-card" data-category="low" onclick="showDetails('no-decree')">
+                        <div class="card-header">
+                            <h3>فاقد حکم می‌باشد</h3>
+                            <span class="card-count info">3</span>
+                        </div>
+                        <div class="card-content">
+                            <p>پرسنل بدون حکم صادره</p>
+                        </div>
+                    </div>
+
+                    <div class="card low-priority-card" data-category="low" onclick="showDetails('no-department')">
+                        <div class="card-header">
+                            <h3>عدم تخصیص قسمت</h3>
+                            <span class="card-count info">2</span>
+                        </div>
+                        <div class="card-content">
+                            <p>پرسنل بدون واحد سازمانی</p>
+                        </div>
+                    </div>
+
+                    <div class="card low-priority-card" data-category="low" onclick="showDetails('no-address')">
+                        <div class="card-header">
+                            <h3>آدرس اختصاص نیافته</h3>
+                            <span class="card-count info">5</span>
+                        </div>
+                        <div class="card-content">
+                            <p>پرسنل بدون آدرس ثبت شده</p>
+                        </div>
+                    </div>
+
+                    <div class="card low-priority-card" data-category="low" onclick="showDetails('no-phone')">
+                        <div class="card-header">
+                            <h3>شماره تلفن اختصاص نیافته</h3>
+                            <span class="card-count info">8</span>
+                        </div>
+                        <div class="card-content">
+                            <p>پرسنل بدون شماره تماس</p>
+                        </div>
+                    </div>
+
+                    <div class="card low-priority-card" data-category="low" onclick="showDetails('no-iban')">
+                        <div class="card-header">
+                            <h3>شماره شبا اختصاص نیافته</h3>
+                            <span class="card-count info">6</span>
+                        </div>
+                        <div class="card-content">
+                            <p>پرسنل بدون شماره شبا</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reporting Cards Section -->
+        <section class="reporting-section">
+            <h2 class="section-title">
+                <i class="fas fa-chart-bar"></i>
+                گزارشات و آمارها
+            </h2>
+            <div class="cards-grid reporting-grid">
+                <div class="card reporting-card" data-category="reporting" onclick="showDetails('general-report')">
+                    <div class="card-header">
+                        <h3>گزارش کلی از وضعیت پرسنل</h3>
+                        <span class="card-count success">187</span>
+                    </div>
+                    <div class="card-content">
+                        <canvas id="personnelStatusChart" width="400" height="200"></canvas>
+                    </div>
+                    <div class="card-actions">
+                        <button class="action-btn primary">گزارش تفصیلی</button>
+                        <button class="action-btn secondary">خروجی Excel</button>
+                    </div>
+                </div>
+
+                <div class="card reporting-card" data-category="reporting" onclick="showDetails('settlement-report')">
+                    <div class="card-header">
+                        <h3>گزارشات تسویه سنواتی</h3>
+                        <span class="card-count info">45</span>
+                    </div>
+                    <div class="card-content">
+                        <canvas id="settlementChart" width="400" height="200"></canvas>
+                    </div>
+                    <div class="card-actions">
+                        <button class="action-btn primary">گزارش تفصیلی</button>
+                        <button class="action-btn secondary">خروجی PDF</button>
+                    </div>
+                </div>
+
+                <div class="card reporting-card" data-category="reporting" onclick="showDetails('contract-status')">
+                    <div class="card-header">
+                        <h3>وضعیت قراردادهای نزدیک به اتمام</h3>
+                        <span class="card-count warning">14</span>
+                    </div>
+                    <div class="card-content">
+                        <canvas id="contractChart" width="400" height="200"></canvas>
+                    </div>
+                    <div class="card-actions">
+                        <button class="action-btn primary">گزارش تفصیلی</button>
+                        <button class="action-btn secondary">یادآوری</button>
+                    </div>
+                </div>
+
+                <div class="card reporting-card" data-category="reporting" onclick="showDetails('leave-usage')">
+                    <div class="card-header">
+                        <h3>میزان استفاده از مرخصی</h3>
+                        <span class="card-count info">78%</span>
+                    </div>
+                    <div class="card-content">
+                        <canvas id="leaveChart" width="400" height="200"></canvas>
+                    </div>
+                    <div class="card-actions">
+                        <button class="action-btn primary">گزارش تفصیلی</button>
+                        <button class="action-btn secondary">تنظیمات</button>
+                    </div>
+                </div>
+
+                <div class="card reporting-card" data-category="reporting" onclick="showDetails('overtime-report')">
+                    <div class="card-header">
+                        <h3>میزان ساعات کاری و اضافه‌کار</h3>
+                        <span class="card-count info">1,245h</span>
+                    </div>
+                    <div class="card-content">
+                        <canvas id="overtimeChart" width="400" height="200"></canvas>
+                    </div>
+                    <div class="card-actions">
+                        <button class="action-btn primary">گزارش تفصیلی</button>
+                        <button class="action-btn secondary">تحلیل</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal for Details -->
+    <div id="detailModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">جزئیات</h3>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Dynamic content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
