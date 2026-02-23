@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  @apply bg-background text-foreground;
+  font-family: var(--font-vazir), sans-serif;
+}
+
+.timeline-grid {
+  background-image: linear-gradient(to left, rgba(148, 163, 184, 0.18) 1px, transparent 1px);
+  background-size: calc(100% / 24) 100%;
+}
